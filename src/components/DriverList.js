@@ -26,7 +26,7 @@ const DriverList = ({ data, setData }) => {
           <tr>
             <th scope="col">Status</th>
             <th scope="col">Identity No</th>
-            <th scope="col">Transporter</th>
+            <th scope="col">Nationality</th>
             <th scope="col">Driver Name</th>
             <th scope="col">Mobile Number</th>
             <th scope="col">External coustmerId</th>
@@ -37,9 +37,9 @@ const DriverList = ({ data, setData }) => {
           {data.map((data) => {
             return (
               <tr>
-                <td scope="row">0</td>
+                <td scope="row">{data.length}</td>
                 <td>{data.identificationNo}</td>
-                <td>Otto</td>
+                <td>{data.nationality}</td>
                 <td>{data.Fname}</td>
                 <td>{data.Mobilenumber}</td>
                 <td>{data.Mobilenumber}</td>
