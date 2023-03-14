@@ -24,56 +24,51 @@ const AddDriver = ({ data, setData }) => {
     countryOfBirth: "",
     cityOfBirth: "",
     nameOfTheCard: "",
-    streetName: "",
-    countryname: "",
-    citytown: "",
-    zipCode: "",
-    buildingNumber: "",
-    workStatus: "",
-    proffesionLevel: "",
-    employerName: "",
-    workerAddress: "",
-    salaryRange: "",
-    identificationType: "",
-    identificationNo: "",
-    issueddate: "",
-    fixedradio: "",
-    DRelationship: "",
-    cardDelivery: "",
+    // streetName: "",
+    // countryname: "",
+    // citytown: "",
+    // zipCode: "",
+    // buildingNumber: "",
+    // workStatus: "",
+    // proffesionLevel: "",
+    // employerName: "",
+    // workerAddress: "",
+    // salaryRange: "",
+    // identificationType: "",
+    // identificationNo: "",
+    // issueddate: "",
+    // DRelationship: "",
+    // cardDelivery: "",
   };
 
   const validationSchema = yup.object().shape({
     Fname: yup.string().required("Please enter your first name"),
     mname: yup.string().required("Please enter your Middle name"),
     Lname: yup.string().required("Please enter your Last name"),
-    dateofbirth: yup.string().required("Please enter your valid date"),
+    // dateofbirth: yup.string().required("Please enter your valid date"),
     Mobilenumber: yup.string().required("Please enter your Mobile Number"),
     country: yup.string().required("Please select your country"),
     usertype: yup.string().required("Please select driver or broker&driver"),
     gender: yup.string().required("Please select gender"),
     nationality: yup.string().required("Please enter your Nationlity"),
     countryOfBirth: yup.string().required("Please enter your Birth country"),
-    cityOfBirth: yup.string().required("Please enter your Birth city"),
+    // cityOfBirth: yup.string().required("Please enter your Birth city"),
     nameOfTheCard: yup.string().required("Please enter your card name"),
-    streetName: yup.string().required("Please enter your street Name"),
-    countryname: yup.string().required("Please enter your country"),
-    citytown: yup.string().required("Please enter your city or town"),
-    zipCode: yup.string().required("Please enter your area zip code"),
-    buildingNumber: yup.string().required("Please enter your Building Number"),
-    workStatus: yup.string().required("Please enter your work status"),
-    proffesionLevel: yup.string().required("Please enter your ProffesionLevel"),
-    employerName: yup.string().required("Please enter EmloyeeName"),
-    workerAddress: yup.string().required("Please enter worker address"),
-    salaryRange: yup.string().required("Please enter salary Range between 12000 - 100000"),
-    identificationType: yup
-      .string()
-      .required("Please enter Identification Type"),
-    identificationNo: yup
-      .string()
-      .required("Please enter Identification number"),
-    issueddate: yup.string().required("Please enter Issued date"),
-    DRelationship: yup.string().required("Please enter your relationship"),
-    cardDelivery: yup.string().required("Please enter card delivery yes or no"),
+    // streetName: yup.string().required("Please enter your street Name"),
+    // countryname: yup.string().required("Please enter your country"),
+    // citytown: yup.string().required("Please enter your city or town"),
+    // zipCode: yup.string().required("Please enter your area zip code"),
+    // buildingNumber: yup.string().required("Please enter your Building Number"),
+    // workStatus: yup.string().required("Please enter your work status"),
+    // proffesionLevel: yup.string().required("Please enter your ProffesionLevel"),
+    // employerName: yup.string().required("Please enter EmloyeeName"),
+    // workerAddress: yup.string().required("Please enter worker address"),
+    // salaryRange: yup.string().required("Please enter salary Range between 12000 - 100000"),
+    // identificationType: yup.string().required("Please enter Identification Type"),
+    // identificationNo: yup.string().required("Please enter Identification number"),
+    // issueddate: yup.string().required("Please enter Issued date"),
+    // DRelationship: yup.string().required("Please enter your relationship"),
+    // cardDelivery: yup.string().required("Please enter card delivery yes or no"),
   });
 
   let countryurl = "https://api.countrystatecity.in/v1/countries";
@@ -129,9 +124,12 @@ const AddDriver = ({ data, setData }) => {
       var birthmonth = birth.getMonth();
       var birthday = birth.getDate();
 
-      var age = nowyear - birthyear;
-      var age_month = nowmonth - birthmonth;
-      var age_day = nowday - birthday;
+      console.log(birthyear,birthmonth,birthday)
+
+      var age = parseInt(nowyear,10) - parseInt(birthyear,10) ;
+      var age_month = parseInt(nowmonth,10) - parseInt(birthmonth,10);
+      var age_day = parseInt(nowday,10) - parseInt(birthday,10);
+      console.log(age,age_month,age_day)
 
       if (age > 100) {
         alert("Age cannot be more than 100 Years.Please enter correct age");
@@ -149,19 +147,19 @@ const AddDriver = ({ data, setData }) => {
       if (age_month < 0 || (age_month == 0 && age_day < 0)) {
         age = parseInt(age) - 1;
         // alert("you are eligible")
-        flag = true;
+        // flag = true;
       }
     }
 
     validateDob(val.dateofbirth);
 
-    if (flag === true) {
+    // if (flag === true) {
       setData([...data, val]);
       console.log("values", val);
       navigate("/");
-    } else {
-      alert("You are not eligible");
-    }
+    // } else {
+      // alert("You are not eligible");
+    // }
   };
   console.log("country", country);
   return (
