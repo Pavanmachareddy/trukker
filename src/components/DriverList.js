@@ -1,8 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const DriverList = ({ data, setData }) => {
-  console.log(data, "driverlist.......................");
+const DriverList = ({ data }) => {
 
   return (
     <div>
@@ -18,8 +17,8 @@ const DriverList = ({ data, setData }) => {
         <h4>Total Drivers</h4>
         <span>0</span>
       </div>
-      <Link to="/adddriver">
-        <button type="submit">Add New Driver</button>
+      <Link to="/add-driver" >
+        <button className="btn btn-success" type="submit">Add New Driver</button>
       </Link>
       <table className="table">
         <thead>
@@ -37,12 +36,12 @@ const DriverList = ({ data, setData }) => {
           {data.map((data) => {
             return (
               <tr>
-                <td scope="row">{data.length}</td>
+                <td>{data.workStatus}</td>
                 <td>{data.identificationNo}</td>
                 <td>{data.nationality}</td>
                 <td>{data.Fname}</td>
                 <td>{data.Mobilenumber}</td>
-                <td>{data.Mobilenumber}</td>
+                <td>{data.identificationType}</td>
                 <td>xxxx xxxx xxxx x098</td>
               </tr>
             );

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const AddDriver = ({ data, setData }) => {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ const AddDriver = ({ data, setData }) => {
 
   const defaultValue = {
     Fname: "",
-    mname: "",
+    Mname: "",
     Lname: "",
     dateofbirth: "",
     Mobilenumber: "",
@@ -24,60 +24,40 @@ const AddDriver = ({ data, setData }) => {
     countryOfBirth: "",
     cityOfBirth: "",
     nameOfTheCard: "",
-    // streetName: "",
-    // countryname: "",
-    // citytown: "",
-    // zipCode: "",
-    // buildingNumber: "",
-    // workStatus: "",
-    // proffesionLevel: "",
-    // employerName: "",
-    // workerAddress: "",
-    // salaryRange: "",
-    // identificationType: "",
-    // identificationNo: "",
-    // issueddate: "",
-    // DRelationship: "",
-    // cardDelivery: "",
+    workStatus: "",
+    identificationType: "",
+    identificationNo: "",
   };
 
   const validationSchema = yup.object().shape({
     Fname: yup.string().required("Please enter your first name"),
-    mname: yup.string().required("Please enter your Middle name"),
+    Mname: yup.string().required("Please enter your Middle name"),
     Lname: yup.string().required("Please enter your Last name"),
-    // dateofbirth: yup.string().required("Please enter your valid date"),
+    dateofbirth: yup.string().required("Please enter your valid date"),
     Mobilenumber: yup.string().required("Please enter your Mobile Number"),
     country: yup.string().required("Please select your country"),
     usertype: yup.string().required("Please select driver or broker&driver"),
     gender: yup.string().required("Please select gender"),
     nationality: yup.string().required("Please enter your Nationlity"),
     countryOfBirth: yup.string().required("Please enter your Birth country"),
-    // cityOfBirth: yup.string().required("Please enter your Birth city"),
+    cityOfBirth: yup.string().required("Please enter your Birth city"),
     nameOfTheCard: yup.string().required("Please enter your card name"),
-    // streetName: yup.string().required("Please enter your street Name"),
-    // countryname: yup.string().required("Please enter your country"),
-    // citytown: yup.string().required("Please enter your city or town"),
-    // zipCode: yup.string().required("Please enter your area zip code"),
-    // buildingNumber: yup.string().required("Please enter your Building Number"),
-    // workStatus: yup.string().required("Please enter your work status"),
-    // proffesionLevel: yup.string().required("Please enter your ProffesionLevel"),
-    // employerName: yup.string().required("Please enter EmloyeeName"),
-    // workerAddress: yup.string().required("Please enter worker address"),
-    // salaryRange: yup.string().required("Please enter salary Range between 12000 - 100000"),
-    // identificationType: yup.string().required("Please enter Identification Type"),
-    // identificationNo: yup.string().required("Please enter Identification number"),
-    // issueddate: yup.string().required("Please enter Issued date"),
-    // DRelationship: yup.string().required("Please enter your relationship"),
-    // cardDelivery: yup.string().required("Please enter card delivery yes or no"),
+    workStatus: yup.string().required("Please enter your work status"),
+    identificationType: yup
+      .string()
+      .required("Please enter Identification Type"),
+    identificationNo: yup
+      .string()
+      .required("Please enter Identification number"),
   });
 
-  let countryurl = "https://api.countrystatecity.in/v1/countries";
-  let cityUrl = "https://api.countrystatecity.in/v1/countries/IN/cities";
-  let stateUrl = "https://api.countrystatecity.in/v1/countries/IN/states";
+  const countryUrl = "https://api.countrystatecity.in/v1/countries";
+  const cityUrl = "https://api.countrystatecity.in/v1/countries/IN/cities";
+  const stateUrl = "https://api.countrystatecity.in/v1/countries/IN/states";
 
   useEffect(() => {
-    let countries = axios
-      .get(countryurl, {
+    const countries = axios
+      .get(countryUrl, {
         headers: {
           "X-CSCAPI-KEY":
             "RGhzemVIZFQ2VWZWRGdUb2UwMUlBeW9MUEZyejd0dUwzaUhsYWExbQ==",
@@ -86,7 +66,7 @@ const AddDriver = ({ data, setData }) => {
       .then((res) => setCountry(res.data))
       .catch((error) => console.log("error", error));
 
-    let city = axios
+    const city = axios
       .get(cityUrl, {
         headers: {
           "X-CSCAPI-KEY":
@@ -96,7 +76,7 @@ const AddDriver = ({ data, setData }) => {
       .then((res) => setCity(res.data))
       .catch((error) => console.log("error", error));
 
-      let state = axios
+    const state = axios
       .get(stateUrl, {
         headers: {
           "X-CSCAPI-KEY":
@@ -105,10 +85,14 @@ const AddDriver = ({ data, setData }) => {
       })
       .then((res) => setState(res.data))
       .catch((error) => console.log("error", error));
+
+    Promise.all([countries, city, state]).then(function(values) {
+      return values;
+    });
   }, []);
 
   const handleSubmit = (val) => {
-    let flag = false;
+    const flag = false;
 
     function validateDob(birth) {
       var today = new Date();
@@ -116,7 +100,6 @@ const AddDriver = ({ data, setData }) => {
       var nowmonth = today.getMonth();
       var nowday = today.getDate();
       var b = document.getElementById("validationDateOfBirth").value;
-      console.log(b);
 
       var birth = new Date(b);
 
@@ -124,17 +107,13 @@ const AddDriver = ({ data, setData }) => {
       var birthmonth = birth.getMonth();
       var birthday = birth.getDate();
 
-      console.log(birthyear,birthmonth,birthday)
-
-      var age = parseInt(nowyear,10) - parseInt(birthyear,10) ;
-      var age_month = parseInt(nowmonth,10) - parseInt(birthmonth,10);
-      var age_day = parseInt(nowday,10) - parseInt(birthday,10);
-      console.log(age,age_month,age_day)
+      var age = parseInt(nowyear, 10) - parseInt(birthyear, 10);
+      var age_month = parseInt(nowmonth, 10) - parseInt(birthmonth, 10);
+      var age_day = parseInt(nowday, 10) - parseInt(birthday, 10);
 
       if (age > 100) {
         alert("Age cannot be more than 100 Years.Please enter correct age");
         flag = false;
-        // return false;
       }
 
       if ((age == 18 && age_month <= 0 && age_day <= 0) || age < 18) {
@@ -142,26 +121,16 @@ const AddDriver = ({ data, setData }) => {
           "Age should be more than 18 years.Please enter a valid Date of Birth"
         );
         flag = false;
-        // return false;
       }
       if (age_month < 0 || (age_month == 0 && age_day < 0)) {
         age = parseInt(age) - 1;
-        // alert("you are eligible")
-        // flag = true;
       }
     }
 
     validateDob(val.dateofbirth);
-
-    // if (flag === true) {
-      setData([...data, val]);
-      console.log("values", val);
-      navigate("/");
-    // } else {
-      // alert("You are not eligible");
-    // }
+    setData([...data, val]);
+    navigate("/");
   };
-  console.log("country", country);
   return (
     <>
       <Formik
@@ -175,9 +144,11 @@ const AddDriver = ({ data, setData }) => {
           </div>
           <div className="text-bg-light p-3 ">
             <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-              <button className="btn btn-light" type="button">
-                Cancel
-              </button>
+              <Link to="/">
+                <button className="btn btn-light" type="button">
+                  Cancel
+                </button>
+              </Link>
               <button className="btn btn-success" type="submit">
                 Send
               </button>
@@ -239,10 +210,10 @@ const AddDriver = ({ data, setData }) => {
               type="text"
               className="form-control"
               id="validationCustom02"
-              name="mname"
+              name="Mname"
             />
             <p className="text-danger">
-              <ErrorMessage name="mname" />
+              <ErrorMessage name="Mname" />
             </p>
           </div>
           <div className="col-md-3">
@@ -311,15 +282,15 @@ const AddDriver = ({ data, setData }) => {
             </p>
           </div>
           <div className="col-md-3">
-            <label className="form-label">Date of Brith</label>
+            <label className="form-label">Date of Birth</label>
             <Field
               type="date"
-              name="dateofbrith"
+              name="dateofbirth"
               className="form-control"
               id="validationDateOfBirth"
             />
             <p className="text-danger">
-              <ErrorMessage name="dateofbrith" />
+              <ErrorMessage name="dateofbirth" />
             </p>
           </div>
           <div className="col-md-3">
@@ -384,7 +355,7 @@ const AddDriver = ({ data, setData }) => {
             <label className="form-label">City Of Birth</label>
             <Field
               component="select"
-              name="CityOfBirth"
+              name="cityOfBirth"
               className="form-select"
             >
               <option selected disabled value="">
@@ -495,7 +466,7 @@ const AddDriver = ({ data, setData }) => {
                 Select Work Status
               </option>
               <option value="completed">Completed</option>
-              <option value="notcompleted">notcompleted</option>
+              <option value="notcompleted">NotCompleted</option>
               <option value="processing">Processing</option>
             </Field>
             <p className="text-danger">
@@ -513,9 +484,8 @@ const AddDriver = ({ data, setData }) => {
               <option selected disabled value="">
                 Select Proffesion Level
               </option>
-              <option value="good">good</option>
-              <option value="bad">bad</option>
-
+              <option value="good">Good</option>
+              <option value="bad">Bad</option>
             </Field>
             <p className="text-danger">
               <ErrorMessage name="proffesionLevel" />
@@ -536,11 +506,7 @@ const AddDriver = ({ data, setData }) => {
           </div>
           <div className="col-md-3">
             <label className="form-label">Worker Address</label>
-            <Field
-              type="text"
-              className="form-control"
-              name="workerAddress"
-            />
+            <Field type="text" className="form-control" name="workerAddress" />
             <p className="text-danger">
               <ErrorMessage name="workerAddress" />
             </p>
@@ -567,16 +533,16 @@ const AddDriver = ({ data, setData }) => {
             <label className="form-label">Identification Type</label>
             <Field
               component="select"
-              name="IdentificationType"
+              name="identificationType"
               className="form-select"
             >
               <option selected disabled value="">
                 Select Identification Type
               </option>
-              <option value="pancard">Pancard</option>
-              <option value="adharcard">Adharcard</option>
-              <option value="votercard">Votercard</option>
-              <option value="collageId">CollageId</option>
+              <option value="Pancard">Pancard</option>
+              <option value="Adharcard">Adharcard</option>
+              <option value="Votercard">Votercard</option>
+              <option value="CollageId">CollageId</option>
             </Field>
             <p className="text-danger">
               <ErrorMessage name="identificationType" />
@@ -594,12 +560,6 @@ const AddDriver = ({ data, setData }) => {
             <p className="text-danger">
               <ErrorMessage name="identificationNo" />
             </p>
-          </div>
-          <div className="col-md-3">
-            <label className="form-label">FRONT SIDE</label>
-          </div>
-          <div className="col-md-3">
-            <label className="form-label">BACK SIDE</label>
           </div>
           <div className="col-md-3">
             <label className="form-label">Issued Date</label>
@@ -719,11 +679,11 @@ const AddDriver = ({ data, setData }) => {
               <option selected disabled value="">
                 Select Relationship
               </option>
-              <option value="brother">Brother</option>
-              <option value="father">Father</option>
-              <option value="mother">Mother</option>
-              <option value="sister">Sister</option>
-              <option value="friend">Friend</option>
+              <option value="Brother">Brother</option>
+              <option value="Father">Father</option>
+              <option value="Mother">Mother</option>
+              <option value="Sister">Sister</option>
+              <option value="Friend">Friend</option>
             </Field>
             <p className="text-danger">
               <ErrorMessage name="DRelationship" />
